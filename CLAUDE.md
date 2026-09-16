@@ -145,4 +145,9 @@ signal for what to write next. Summarize the patterns under "Learned".
 
 ## Learned
 
-(Nothing yet. Add at most three lines per week, each citing post ids.)
+- 2026-09-16, first review (8 decisions): generic operations tips are denied ("Too generic" x5;
+  note on count-the-handoffs: "Not specific, doesnt say anything. It's speaking to an audience
+  instead of the world."). Approved: one-roadmap-every-program, judge-a-fix-by-monday. Owner
+  also said the whole generic batch "dont at all point to how we work and what our systems do
+  for a client." Every post must show a specific TRACE system, deliverable, step, or rule and what
+  it does for a client. Test: could a competitor post it unchanged? Then it fails.

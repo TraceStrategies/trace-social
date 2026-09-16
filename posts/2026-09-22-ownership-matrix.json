@@ -1,0 +1,19 @@
+{
+  "id": "2026-09-22-ownership-matrix",
+  "dueAt": "2026-09-22T13:30:00Z",
+  "pillar": "method",
+  "source": [
+    "k-method-deliverables",
+    "k-a8-ownership"
+  ],
+  "card": {
+    "eyebrow": "Deliverable A8 · Ownership matrix",
+    "headline": "One owner per capability. No gaps. No ties.",
+    "body": "The test every TRACE ownership matrix has to pass before we move on."
+  },
+  "alt": "Dark card reading: One owner per capability. No gaps. No ties. Deliverable A8, the ownership matrix.",
+  "linkedin": "The TRACE method produces twelve deliverables. This is one of them: the ownership matrix.\n\nIt lists every capability the business depends on, from taking an order to closing the month, and puts one accountable name next to each one, along with the system where that capability's data lives.\n\nIt only passes when three things are true:\nEvery capability has an owner.\nNo capability has two.\nEvery owner can point to where their data is kept.\n\nWe hold it to that test because stalled work is rarely a skill problem. It is usually a capability two people each think the other one owns.\n\nA full page does not pass. A matrix someone can run the business from does.",
+  "instagram": "Deliverable A8: the ownership matrix.\n\nEvery capability the business depends on gets one accountable owner and a named home for its data. It passes only when there are no gaps and no ties, because stalled work is usually a capability two people think the other one owns.",
+  "status": "rendered",
+  "format": "A · Deliverable spotlight"
+}

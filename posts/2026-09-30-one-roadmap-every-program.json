@@ -6,7 +6,7 @@
     "k-method",
     "k-method-roadmap"
   ],
-  "status": "rendered",
+  "status": "approved",
   "card": {
     "eyebrow": "The TRACE method",
     "letter": "R",
@@ -16,5 +16,11 @@
   },
   "alt": "Dark card reading: One roadmap across every program. Step two of the TRACE method.",
   "linkedin": "Most teams do not have a roadmap problem. They have five roadmaps.\n\nStep two of the TRACE method is Roadmap: turn each target into one visualized roadmap across every program.\n\nPut every program on the same timeline and three things show up right away: two teams scheduled on the same people in the same month, work that depends on something nobody scheduled, and dates with no owner.\n\nSequenced, so everyone knows what comes first. Owned, so every line has a name. On a clock you steer, so dates move because you chose to move them.",
-  "instagram": "One roadmap across every program.\n\nPut every program on one timeline and you will see it: the same people booked twice, dependencies nobody scheduled, dates with no owner. Sequence it, put a name on every line, and move dates on purpose."
+  "instagram": "One roadmap across every program.\n\nPut every program on one timeline and you will see it: the same people booked twice, dependencies nobody scheduled, dates with no owner. Sequence it, put a name on every line, and move dates on purpose.",
+  "review": {
+    "decision": "approved",
+    "reasons": [],
+    "note": "",
+    "decidedAt": "2026-09-16T18:35:54.147Z"
+  }
 }

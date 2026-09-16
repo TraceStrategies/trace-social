@@ -9,7 +9,7 @@ const posts = loadPosts()
   .map((p) => ({
     id: p.id,
     date: p.dueAt,
-    pillar: p.pillar,
+    pillar: p.format || p.pillar,
     headline: p.card.headline,
     alt: p.alt,
     linkedin: p.linkedin,

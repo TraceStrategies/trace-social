@@ -1,0 +1,18 @@
+{
+  "id": "2026-09-24-propose-and-approve",
+  "dueAt": "2026-09-24T13:30:00Z",
+  "pillar": "faq",
+  "source": [
+    "k-propose-approve"
+  ],
+  "card": {
+    "eyebrow": "Built into our systems",
+    "headline": "AI proposes. A person approves.",
+    "body": "Nothing an agent drafts reaches your tools until someone on your team says yes."
+  },
+  "alt": "Dark card reading: AI proposes. A person approves.",
+  "linkedin": "One rule sits underneath the systems TRACE builds: AI proposes, a person approves.\n\nSay a leader types: \"Open an urgent ticket for the login outage and route it to the platform team.\" The agent drafts the exact change: which tool, which project, which owner, and which company objective it ties to. Then it stops. Nothing is written until someone approves it.\n\nThat gives you two things. Your team stays in control of what changes in their tools. And every change carries an owner and a reason on record, which is what audit-ready actually means.\n\nAgents do the drafting. People make the call.",
+  "instagram": "AI proposes. A person approves.\n\nWhen a leader asks for a change in plain English, the agent drafts exactly what it will do: tool, project, owner, objective. Nothing is written until someone approves it, so every change has an owner and a reason on record.",
+  "status": "rendered",
+  "format": "C · Rule we build in"
+}
