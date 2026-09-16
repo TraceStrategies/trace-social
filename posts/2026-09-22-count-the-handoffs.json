@@ -1,0 +1,16 @@
+{
+  "id": "2026-09-22-count-the-handoffs",
+  "dueAt": "2026-09-22T13:30:00Z",
+  "pillar": "practice",
+  "source": [],
+  "status": "rendered",
+  "card": {
+    "eyebrow": "Operations",
+    "headline": "Count the handoffs.",
+    "accent": "Every one is a wait.",
+    "body": "Work slows down where it changes hands, not where it gets done."
+  },
+  "alt": "Dark card reading: Count the handoffs. Every one is a wait.",
+  "linkedin": "Pick one process you run every week. Follow a single request from start to finish and count how many times it changes hands.\n\nEvery handoff is a place where work sits and waits. Someone has to notice it arrived, understand it, and pick it up. Most delays live there, not in the work itself.\n\nFor each handoff, ask one question: does this step add something the customer would pay for? If not, it is a candidate to cut or combine.\n\nFewer handoffs usually beats faster people.",
+  "instagram": "Count the handoffs.\n\nFollow one request through a process you run every week. Every time it changes hands, it waits. Ask of each handoff: does this add something the customer would pay for? If not, cut or combine it. Fewer handoffs usually beats faster people."
+}

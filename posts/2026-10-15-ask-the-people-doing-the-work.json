@@ -1,0 +1,17 @@
+{
+  "id": "2026-10-15-ask-the-people-doing-the-work",
+  "dueAt": "2026-10-15T13:30:00Z",
+  "pillar": "practice",
+  "source": [
+    "k-faq-ops-team"
+  ],
+  "status": "rendered",
+  "card": {
+    "eyebrow": "Operations",
+    "headline": "Your team already knows what is broken.",
+    "body": "The gap is usually bandwidth, not knowledge."
+  },
+  "alt": "Dark card reading: Your team already knows what is broken.",
+  "linkedin": "The fastest diagnostic in any operation is a direct question to the people doing the work: \"What slows you down every week?\"\n\nThey usually know. The problem is rarely knowledge. It is bandwidth. Nobody has time to rebuild a process while also running it every day.\n\nSo protect the time. Take the top answer, assign one owner, and give them a few protected hours to fix it. Then ask again.\n\nThe people closest to the work are your best source of improvements, if someone gives them room to act.",
+  "instagram": "Your team already knows what is broken.\n\nAsk the people doing the work: \"What slows you down every week?\" The gap is usually bandwidth, not knowledge. Give one owner protected hours to fix the top answer. Then ask again."
+}

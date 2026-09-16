@@ -1,0 +1,20 @@
+{
+  "id": "2026-10-06-fix-then-automate",
+  "dueAt": "2026-10-06T13:30:00Z",
+  "pillar": "method",
+  "source": [
+    "k-method",
+    "k-method-automation"
+  ],
+  "status": "rendered",
+  "card": {
+    "eyebrow": "The TRACE method",
+    "letter": "A",
+    "step": "Step 03 · Automation",
+    "headline": "Fix it first. Then automate it.",
+    "body": "Automating a broken process just breaks it faster."
+  },
+  "alt": "Dark card reading: Fix it first. Then automate it. Step three of the TRACE method.",
+  "linkedin": "Automation is step three of the TRACE method, not step one.\n\nFind the manual work quietly eating budget and morale, then hand it off. Only where it is safe. Never on blind trust.\n\nThree checks before automating anything:\n1. Is the process already written down and stable?\n2. What does one mistake cost if nobody catches it?\n3. Who looks at the output, and how often?\n\nIf a mistake is expensive, keep a person in the loop. Automating a broken process just breaks it faster.",
+  "instagram": "Fix it first. Then automate it.\n\nBefore automating, check: is the process written down and stable? What does one uncaught mistake cost? Who reviews the output? If a mistake is expensive, keep a person in the loop."
+}

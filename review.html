@@ -1,0 +1,272 @@
+<title>TRACE Post Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --ground:#0A0806; --panel:#16110C; --panel-2:#1E1812; --rule:#2E261D;
+  --ink:#F2ECE2; --muted:#BDB2A0; --copper:#C0894F; --copper-ink:#140D06;
+  --patina:#4E8A80; --brick:#C8614F;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--ground);color:var(--ink);font:16px/1.5 var(--sans);padding-inline:16px;padding-block:28px 64px}
+.shell{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.label{font:700 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+h1{margin:0;font-weight:300;font-size:30px;letter-spacing:-.01em}
+.tabs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:4px}
+.tabs button{font:700 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;border:0;border-radius:9px;padding:10px 14px;background:transparent;color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--panel-2);color:var(--ink)}
+.tabs .n{font-variant-numeric:tabular-nums;color:var(--copper);margin-left:6px}
+.status{font:500 13px/1.4 var(--mono);color:var(--muted);min-height:18px}
+.status.warn{color:var(--brick)}
+
+/* review view */
+.stage{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:28px;align-items:start}
+.stage img{width:100%;height:auto;display:block;border-radius:10px;border:1px solid var(--rule)}
+.copy-col{display:flex;flex-direction:column;gap:16px;min-width:0}
+.meta{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.meta .pillar{color:var(--copper)}
+h2{margin:0;font-weight:600;font-size:26px;line-height:1.2;text-wrap:balance}
+.text{white-space:pre-wrap;overflow-wrap:anywhere;max-width:62ch;margin:0;color:var(--ink)}
+details.ig{border-top:1px solid var(--rule);padding-top:12px}
+details.ig summary{cursor:pointer;list-style:none}
+details.ig summary::-webkit-details-marker{display:none}
+details.ig summary::after{content:" +";color:var(--copper)}
+details.ig[open] summary::after{content:" \2212"}
+details.ig .text{margin-top:10px;color:var(--muted)}
+.decide{position:sticky;bottom:0;display:flex;gap:10px;padding-block:14px calc(14px + env(safe-area-inset-bottom,0px));background:var(--ground);border-top:1px solid var(--rule)}
+.btn{font:700 13px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;border-radius:11px;padding:16px 22px;cursor:pointer;border:1px solid transparent}
+.btn:disabled{cursor:not-allowed;background:var(--panel-2);color:var(--muted);border-color:var(--rule)}
+.approve{flex:2;background:var(--copper);color:var(--copper-ink)}
+.deny{flex:1;background:transparent;color:var(--ink);border-color:var(--rule)}
+.deny[aria-expanded="true"]{border-color:var(--brick);color:var(--brick)}
+.btn:focus-visible,.chip:focus-visible,.tabs button:focus-visible,summary:focus-visible,textarea:focus-visible{outline:2px solid var(--copper);outline-offset:2px}
+.kbd{font:500 11px var(--mono);color:var(--muted);margin-left:8px}
+.approve .kbd{color:var(--copper-ink)}
+.btn:disabled .kbd{color:var(--muted)}
+.reasons{display:flex;flex-direction:column;gap:12px;background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 14px/1 var(--sans);padding:10px 14px;border-radius:999px;border:1px solid var(--rule);background:var(--panel-2);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--brick);border-color:var(--brick);color:var(--ground)}
+textarea{width:100%;min-height:64px;resize:vertical;background:var(--ground);color:var(--ink);border:1px solid var(--rule);border-radius:10px;padding:10px 12px;font:15px/1.4 var(--sans)}
+.confirm{align-self:flex-start;background:var(--brick);color:var(--ground)}
+.done{background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:40px 24px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center}
+.done strong{font-size:22px;font-weight:600}
+
+/* ready + denied lists */
+.list{display:flex;flex-direction:column;gap:8px}
+.row{background:var(--panel);border:1px solid var(--rule);border-radius:12px}
+.row>summary{display:grid;grid-template-columns:auto 96px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 16px;cursor:pointer;list-style:none}
+.row>summary::-webkit-details-marker{display:none}
+.pip{width:9px;height:9px;border-radius:50%;border:2px solid var(--muted)}
+.pip.half{border-color:var(--copper)}
+.pip.full{background:var(--patina);border-color:var(--patina)}
+.row .when{font:500 13px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.row .head{overflow-wrap:anywhere}
+.row .tag{font:700 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.row-body{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:24px;padding:4px 16px 20px}
+.row-body img{width:100%;height:auto;border-radius:8px;border:1px solid var(--rule)}
+.net{display:flex;flex-direction:column;gap:8px}
+.net+.net{border-top:1px solid var(--rule);padding-top:14px;margin-top:14px}
+.net-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.net-head h3{margin:0;font-size:16px;flex:1}
+.small{padding:9px 12px;font-size:11px;background:var(--panel-2);color:var(--ink);border-color:var(--rule)}
+label.check{display:flex;gap:6px;align-items:center;font-size:14px;cursor:pointer}
+label.check input{width:18px;height:18px;accent-color:#4E8A80}
+.reason-line{color:var(--brick);font-size:14px}
+.empty{color:var(--muted);padding:24px 4px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--panel-2);border:1px solid var(--rule);border-radius:12px;padding:12px 14px;display:flex;gap:14px;align-items:center;font-size:14px}
+.toast button{font:700 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;background:none;border:0;color:var(--copper);cursor:pointer}
+@media (max-width:760px){
+  .stage,.row-body{grid-template-columns:minmax(0,1fr)}
+  .stage img{max-width:420px;margin:0 auto}
+  .row>summary{grid-template-columns:auto 72px minmax(0,1fr)}
+  .row .tag{display:none}
+  h1{font-size:24px}
+}
+@media (prefers-reduced-motion:no-preference){.btn,.chip{transition:background-color .15s,border-color .15s}}
+</style>
+
+<div class="shell">
+  <header>
+    <div>
+      <div class="label">TRACE Strategies · LinkedIn + Instagram</div>
+      <h1>Post review</h1>
+    </div>
+    <div class="tabs" role="tablist">
+      <button role="tab" id="tab-review" aria-selected="true" data-view="review">To review<span class="n" id="n-review"></span></button>
+      <button role="tab" id="tab-ready" aria-selected="false" data-view="ready">Ready to post<span class="n" id="n-ready"></span></button>
+      <button role="tab" id="tab-denied" aria-selected="false" data-view="denied">Denied<span class="n" id="n-denied"></span></button>
+    </div>
+  </header>
+  <div class="status" id="status">Connecting to saved decisions…</div>
+  <main id="view"></main>
+</div>
+<div class="toast" id="toast" hidden><span id="toast-text"></span><button id="toast-undo" type="button">Undo</button></div>
+
+<script>
+var POSTS = [{"id":"2026-09-22-count-the-handoffs","date":"2026-09-22T13:30:00Z","pillar":"practice","headline":"Count the handoffs.","alt":"Dark card reading: Count the handoffs. Every one is a wait.","linkedin":"Pick one process you run every week. Follow a single request from start to finish and count how many times it changes hands.\n\nEvery handoff is a place where work sits and waits. Someone has to notice it arrived, understand it, and pick it up. Most delays live there, not in the work itself.\n\nFor each handoff, ask one question: does this step add something the customer would pay for? If not, it is a candidate to cut or combine.\n\nFewer handoffs usually beats faster people.","instagram":"Count the handoffs.\n\nFollow one request through a process you run every week. Every time it changes hands, it waits. Ask of each handoff: does this add something the customer would pay for? If not, cut or combine it. Fewer handoffs usually beats faster people."},{"id":"2026-09-23-few-targets-that-matter","date":"2026-09-23T13:30:00Z","pillar":"method","headline":"Not forty goals. The few that matter.","alt":"Dark card reading: Not forty goals. The few that matter. Step one of the TRACE method.","linkedin":"Forty goals is the same as no goals.\n\nThe first step of the TRACE method is Target: pin down the handful of targets that actually decide your year.\n\nA simple test for each goal on your list: if this were the only thing you hit this year, would the year still count? Keep the ones that pass. Park the rest where you can see them, but stop staffing them.\n\nEvery roadmap, automation, and meeting after that answers to the few you kept.","instagram":"Not forty goals. The few that matter.\n\nTest each goal: if this were the only thing you hit this year, would the year still count? Keep the ones that pass. Park the rest. Everything you build after that answers to the few you kept."},{"id":"2026-09-24-three-kinds-of-waste","date":"2026-09-24T13:30:00Z","pillar":"faq","headline":"Handoffs. Waiting. Rework.","alt":"Dark card reading: Handoffs. Waiting. Rework. Start with these three.","linkedin":"Lean transformation sounds big. In practice it starts with three kinds of waste you can see this week.\n\nHandoffs: work passing between people or teams, losing context each time.\n\nWaiting: work sitting in a queue, an inbox, or an approval step while nobody touches it.\n\nRework: work done twice because it was unclear, incomplete, or wrong the first time.\n\nMap how one process really runs, mark every instance of the three, and remove the steps that do not earn their place. The goal is the same output with less friction and lower cost.","instagram":"Lean starts with three kinds of waste.\n\nHandoffs: work losing context as it changes hands.\nWaiting: work sitting untouched in a queue.\nRework: work done twice.\n\nMark all three on one process and cut the steps that do not earn their place."},{"id":"2026-09-29-write-it-down-first","date":"2026-09-29T13:30:00Z","pillar":"practice","headline":"Write the process down before you fix it.","alt":"Dark card reading: Write the process down before you fix it.","linkedin":"Before you fix a process, write down how it runs today. Not how it should run. How it actually runs.\n\nSit with the person who does the work and list every step, every tool, and every decision they make along the way. It usually takes under an hour.\n\nTwo things happen. You find steps nobody knew existed. And the fix often becomes obvious once the whole thing is on one page.\n\nA process that only lives in one person's memory cannot be improved, delegated, or covered when they are out.","instagram":"Write the process down before you fix it.\n\nSit with the person who does the work. List every step, tool, and decision as it runs today. You will find steps nobody knew existed, and the fix often becomes obvious once it is all on one page."},{"id":"2026-09-30-one-roadmap-every-program","date":"2026-09-30T13:30:00Z","pillar":"method","headline":"One roadmap across every program.","alt":"Dark card reading: One roadmap across every program. Step two of the TRACE method.","linkedin":"Most teams do not have a roadmap problem. They have five roadmaps.\n\nStep two of the TRACE method is Roadmap: turn each target into one visualized roadmap across every program.\n\nPut every program on the same timeline and three things show up right away: two teams scheduled on the same people in the same month, work that depends on something nobody scheduled, and dates with no owner.\n\nSequenced, so everyone knows what comes first. Owned, so every line has a name. On a clock you steer, so dates move because you chose to move them.","instagram":"One roadmap across every program.\n\nPut every program on one timeline and you will see it: the same people booked twice, dependencies nobody scheduled, dates with no owner. Sequence it, put a name on every line, and move dates on purpose."},{"id":"2026-10-01-judge-a-fix-by-monday","date":"2026-10-01T13:30:00Z","pillar":"practice","headline":"Judge a fix by how Monday runs.","alt":"Dark card reading: Judge a fix by how Monday runs.","linkedin":"A simple way to judge any improvement effort: does Monday run differently?\n\nA report can be right and still change nothing. The recommendation sits in a folder while the team keeps working the old way, because nobody had time to build the new way.\n\nSo measure the fix, not the finding. Is the new step in the real system the team uses? Does it run without the person who designed it? Would a new hire follow it without being told?\n\nIf the answer is no, it is still advice.","instagram":"Judge a fix by how Monday runs.\n\nIs the new step inside the system the team actually uses? Does it run without the person who designed it? Would a new hire follow it without being told? If not, it is still advice."},{"id":"2026-10-06-fix-then-automate","date":"2026-10-06T13:30:00Z","pillar":"method","headline":"Fix it first. Then automate it.","alt":"Dark card reading: Fix it first. Then automate it. Step three of the TRACE method.","linkedin":"Automation is step three of the TRACE method, not step one.\n\nFind the manual work quietly eating budget and morale, then hand it off. Only where it is safe. Never on blind trust.\n\nThree checks before automating anything:\n1. Is the process already written down and stable?\n2. What does one mistake cost if nobody catches it?\n3. Who looks at the output, and how often?\n\nIf a mistake is expensive, keep a person in the loop. Automating a broken process just breaks it faster.","instagram":"Fix it first. Then automate it.\n\nBefore automating, check: is the process written down and stable? What does one uncaught mistake cost? Who reviews the output? If a mistake is expensive, keep a person in the loop."},{"id":"2026-10-07-name-the-step-it-removes","date":"2026-10-07T13:30:00Z","pillar":"faq","headline":"Name the step a tool removes.","alt":"Dark card reading: Name the step a tool removes.","linkedin":"Before buying any tool, AI included, finish this sentence: \"This removes the step where ___.\"\n\nIf you can name the step, you can measure it: how often it happens, how long it takes, and what it costs when it goes wrong. Now you know what the tool is worth.\n\nIf you cannot name the step, the tool is a cost looking for a job.\n\nAI is a tool to use where it earns its place. The product is an operation that runs better, not the tool.","instagram":"Name the step a tool removes.\n\nBefore buying any tool, AI included, finish the sentence: \"This removes the step where ___.\" If you can name it, you can measure it. If you cannot, the tool is a cost looking for a job."},{"id":"2026-10-08-track-why-work-is-redone","date":"2026-10-08T13:30:00Z","pillar":"practice","headline":"Track why work gets redone.","alt":"Dark card reading: Track why work gets redone.","linkedin":"Rework is the most expensive work a team does. You pay for it twice, and the second time usually costs more.\n\nFor two weeks, every time something gets sent back or done over, write one line: what it was and why. Keep the reasons short, like \"missing info\", \"unclear request\", or \"wrong version\".\n\nAt the end, sort the list. A few reasons will cover most of it. Fix those at the source, usually with a clearer intake step or a simple checklist, and the rework drops without anyone working harder.","instagram":"Track why work gets redone.\n\nFor two weeks, log every redo with one short reason. Sort the list. A few reasons will cover most of it. Fix those at the source, often with a clearer intake step or a checklist."},{"id":"2026-10-13-three-question-weekly-review","date":"2026-10-13T13:30:00Z","pillar":"method","headline":"Three questions. Every week. Same time.","alt":"Dark card reading: Three questions. Every week. Same time. Step four of the TRACE method.","linkedin":"Step four of the TRACE method is Cadence: a sustainable rhythm that keeps the machine moving and turns hindsight into foresight.\n\nThe simplest version is a 30-minute weekly review with the same three questions:\n1. What moved?\n2. What is stuck, and who can unstick it?\n3. What changed that affects the plan?\n\nSame day, same time, same questions. The consistency is what makes problems show up early instead of at the deadline.\n\nKeep it short enough that people can sustain it. Humans included.","instagram":"Three questions. Every week. Same time.\n\n1. What moved?\n2. What is stuck, and who can unstick it?\n3. What changed that affects the plan?\n\nThirty minutes. The consistency is what surfaces problems early."},{"id":"2026-10-14-one-fix-not-a-program","date":"2026-10-14T13:30:00Z","pillar":"practice","headline":"Start with one fix, not a program.","alt":"Dark card reading: Start with one fix, not a program.","linkedin":"Big transformation programs stall because they ask everyone to change everything at once.\n\nStart with one fix instead. List the problems your team hits, then score each one on two things: how often it happens and how much it hurts when it does. Multiply. The top of the list is your first fix.\n\nInstall it, make sure it runs without you, then pick the next one.\n\nThe team feels the change in weeks, not months, and each win makes the next one easier to start.","instagram":"Start with one fix, not a program.\n\nScore each problem on how often it happens and how much it hurts. Multiply. Fix the top one, make sure it runs without you, then pick the next. You feel the change in weeks, not months."},{"id":"2026-10-15-ask-the-people-doing-the-work","date":"2026-10-15T13:30:00Z","pillar":"practice","headline":"Your team already knows what is broken.","alt":"Dark card reading: Your team already knows what is broken.","linkedin":"The fastest diagnostic in any operation is a direct question to the people doing the work: \"What slows you down every week?\"\n\nThey usually know. The problem is rarely knowledge. It is bandwidth. Nobody has time to rebuild a process while also running it every day.\n\nSo protect the time. Take the top answer, assign one owner, and give them a few protected hours to fix it. Then ask again.\n\nThe people closest to the work are your best source of improvements, if someone gives them room to act.","instagram":"Your team already knows what is broken.\n\nAsk the people doing the work: \"What slows you down every week?\" The gap is usually bandwidth, not knowledge. Give one owner protected hours to fix the top answer. Then ask again."},{"id":"2026-10-20-owner-date-reason","date":"2026-10-20T13:30:00Z","pillar":"method","headline":"Every decision: an owner, a date, a reason.","alt":"Dark card reading: Every decision: an owner, a date, a reason. Step five of the TRACE method.","linkedin":"Step five of the TRACE method is Enterprise: govern like the biggest companies do, at your scale. Audit-ready, traceable, investment-planned.\n\nYou do not need a compliance department to start. You need one habit: every decision that matters gets written down with three things.\n\nAn owner: who made the call.\nA date: when it was made.\nA reason: why, in one sentence.\n\nSix months later, when someone asks why things work this way, the answer is there. That is what traceable means.","instagram":"Every decision: an owner, a date, a reason.\n\nWrite those three things down for every decision that matters. Six months later, when someone asks why it works this way, the answer is there. That is what traceable means."},{"id":"2026-10-21-measure-the-waiting","date":"2026-10-21T13:30:00Z","pillar":"practice","headline":"Measure the waiting, not just the work.","alt":"Dark card reading: Measure the waiting, not just the work.","linkedin":"Pick one request that recently took a week to finish. Now estimate how many hours someone was actually working on it.\n\nFor most teams, the hands-on time is a small slice of the total. The rest is waiting: in an inbox, for an approval, for information from another team.\n\nThat is why pushing people to work faster rarely shortens delivery. The waiting does not shrink.\n\nFind the longest wait in the process and attack that first. It is usually an approval or a handoff nobody owns.","instagram":"Measure the waiting, not just the work.\n\nTake a job that took a week. How many hours was someone actually working on it? The rest was waiting. Find the longest wait, usually an approval or an unowned handoff, and fix that first."},{"id":"2026-10-22-gaps-in-writing-first","date":"2026-10-22T13:30:00Z","pillar":"practice","headline":"See the gaps in writing before you act.","alt":"Dark card reading: See the gaps in writing before you act.","linkedin":"\"Things feel slow\" is not a problem you can fix. A written list of gaps is.\n\nBefore spending money on a fix, walk your operation area by area and write down what is missing: a step with no owner, a process nobody documented, a report nobody reads, a tool nobody uses.\n\nOnce the gaps are on paper, patterns show up and priorities sort themselves. The conversation moves from \"something is wrong\" to \"here is what we fix first.\"\n\nStart at the fix, not at the feeling.","instagram":"See the gaps in writing before you act.\n\nWalk your operation area by area and list what is missing: steps with no owner, undocumented processes, unread reports, unused tools. Once it is on paper, the first fix becomes clear."}];
+var REASONS = ["Too generic", "Wrong idea", "Weak headline", "Image looks off", "Too long", "Off-brand voice", "Not how we work"];
+var reviews = {};
+var db = null, downloads = null;
+var view = "review", denyOpen = false, picked = [], lastUndo = null, toastTimer = null;
+
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function day(iso){return new Date(iso).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",timeZone:"America/New_York"});}
+function img(p){return "posts/" + p.id + ".png";}
+function decision(p){var r = reviews[p.id]; return r && r.decision;}
+function pending(){return POSTS.filter(function(p){return !decision(p);});}
+function byDecision(d){return POSTS.filter(function(p){return decision(p) === d;});}
+
+function setStatus(text, warn){var el = document.getElementById("status"); el.textContent = text; el.classList.toggle("warn", !!warn);}
+
+function render(){
+  document.getElementById("n-review").textContent = pending().length;
+  document.getElementById("n-ready").textContent = byDecision("approved").length;
+  document.getElementById("n-denied").textContent = byDecision("denied").length;
+  document.querySelectorAll(".tabs button").forEach(function(b){b.setAttribute("aria-selected", String(b.dataset.view === view));});
+  var main = document.getElementById("view");
+  if (view === "review") main.innerHTML = reviewView();
+  else main.innerHTML = listView(view === "ready" ? "approved" : "denied");
+}
+
+function reviewView(){
+  var list = pending();
+  if (!list.length) return '<div class="done"><strong>All caught up</strong><span class="label">Nothing left to review</span></div>';
+  var p = list[0];
+  var locked = !db;
+  var chips = REASONS.map(function(r){return '<button type="button" class="chip" data-reason="' + esc(r) + '" aria-pressed="' + (picked.indexOf(r) >= 0) + '">' + esc(r) + '</button>';}).join("");
+  return '<section class="stage">' +
+    '<img src="' + img(p) + '" alt="' + esc(p.alt) + '" width="1080" height="1350">' +
+    '<div class="copy-col">' +
+      '<div class="meta"><span class="label">' + esc(day(p.date)) + '</span><span class="label pillar">' + esc(p.pillar) + '</span><span class="label">' + (POSTS.length - list.length + 1) + ' of ' + POSTS.length + '</span></div>' +
+      '<h2>' + esc(p.headline) + '</h2>' +
+      '<p class="label">LinkedIn</p><p class="text">' + esc(p.linkedin) + '</p>' +
+      '<details class="ig"><summary class="label">Instagram caption</summary><p class="text">' + esc(p.instagram) + '</p></details>' +
+      (denyOpen ? '<div class="reasons"><span class="label">Why? Tap any that apply</span><div class="chips">' + chips + '</div>' +
+        '<textarea id="deny-note" placeholder="Anything else (optional)"></textarea>' +
+        '<button type="button" class="btn confirm" id="confirm-deny"' + (locked ? " disabled" : "") + '>Deny post</button></div>' : '') +
+      '<div class="decide">' +
+        '<button type="button" class="btn approve" id="approve" data-id="' + esc(p.id) + '"' + (locked ? " disabled" : "") + '>Approve<span class="kbd">A</span></button>' +
+        '<button type="button" class="btn deny" id="deny" aria-expanded="' + denyOpen + '"' + (locked ? " disabled" : "") + '>Deny<span class="kbd">D</span></button>' +
+      '</div>' +
+    '</div></section>';
+}
+
+function listView(d){
+  var list = byDecision(d);
+  if (!list.length) return '<p class="empty">' + (d === "approved" ? "Approved posts show up here, ready to copy and post." : "Nothing denied.") + '</p>';
+  return '<div class="list">' + list.map(function(p){
+    var r = reviews[p.id] || {};
+    var n = (r.linkedinPosted ? 1 : 0) + (r.instagramPosted ? 1 : 0);
+    var pip = d === "approved" ? '<span class="pip ' + (n === 2 ? "full" : n === 1 ? "half" : "") + '"></span>' : '<span class="pip"></span>';
+    var body = d === "approved"
+      ? ["linkedin","instagram"].map(function(net){
+          return '<div class="net"><div class="net-head"><h3>' + (net === "linkedin" ? "LinkedIn" : "Instagram") + '</h3>' +
+            '<button type="button" class="btn small" data-copy="' + net + '" data-id="' + esc(p.id) + '">Copy text</button>' +
+            '<label class="check"><input type="checkbox" id="posted-' + esc(p.id) + '-' + net + '" data-posted="' + net + '" data-id="' + esc(p.id) + '"' + (r[net + "Posted"] ? " checked" : "") + '> Posted</label></div>' +
+            '<p class="text">' + esc(p[net]) + '</p></div>';
+        }).join("") +
+        '<div class="net"><div class="net-head"><h3>Image</h3>' +
+          (downloads ? '<button type="button" class="btn small" data-save="' + esc(p.id) + '">Save image</button>' : '') +
+          '<button type="button" class="btn small" data-copy="alt" data-id="' + esc(p.id) + '">Copy alt text</button>' +
+          '<button type="button" class="btn small" data-reopen="' + esc(p.id) + '">Back to review</button></div></div>'
+      : '<div class="net"><p class="reason-line">' + esc((r.reasons || []).join(" · ") || "No reason given") + '</p>' +
+          (r.note ? '<p class="text">' + esc(r.note) + '</p>' : '') +
+          '<div class="net-head"><button type="button" class="btn small" data-reopen="' + esc(p.id) + '">Back to review</button></div></div>';
+    return '<details class="row"><summary>' + pip + '<span class="when">' + esc(day(p.date)) + '</span><span class="head">' + esc(p.headline) + '</span><span class="tag">' + esc(p.pillar) + '</span></summary>' +
+      '<div class="row-body"><img src="' + img(p) + '" alt="' + esc(p.alt) + '" loading="lazy" width="1080" height="1350"><div>' + body + '</div></div></details>';
+  }).join("") + '</div>';
+}
+
+function write(id, data){
+  if (!db) return Promise.reject({code:"unavailable"});
+  return db.doc("reviews/" + id).set(data).catch(function(e){
+    setStatus(e && e.code === "invalid_argument" ? "This account can only view decisions." : "Could not save. Check your connection and try again.", true);
+    throw e;
+  });
+}
+function merge(id, patch){
+  var cur = reviews[id] || {};
+  var next = {}; for (var k in cur) next[k] = cur[k]; for (var j in patch) next[j] = patch[j];
+  return write(id, next);
+}
+function base(p){return {postId:p.id, headline:p.headline, pillar:p.pillar};}
+function find(id){return POSTS.filter(function(p){return p.id === id;})[0];}
+
+function decide(p, data, label){
+  var prev = reviews[p.id] || null;
+  var body = base(p); for (var k in data) body[k] = data[k]; body.decidedAt = new Date().toISOString();
+  reviews[p.id] = body; denyOpen = false; picked = []; render();
+  write(p.id, body).then(function(){ showToast(label, function(){ if (prev) write(p.id, prev); else db.doc("reviews/" + p.id).delete(); }); })
+    .catch(function(){ if (prev) reviews[p.id] = prev; else delete reviews[p.id]; render(); });
+}
+
+function showToast(text, undo){
+  lastUndo = undo;
+  document.getElementById("toast-text").textContent = text;
+  document.getElementById("toast").hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ document.getElementById("toast").hidden = true; lastUndo = null; }, 6000);
+}
+
+function copy(text, btn){
+  var ok = function(){ var t = btn.textContent; btn.textContent = "Copied"; setTimeout(function(){ btn.textContent = t; }, 1200); };
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(ok, function(){ fallbackCopy(text); ok(); });
+  else { fallbackCopy(text); ok(); }
+}
+function fallbackCopy(text){var t = document.createElement("textarea"); t.value = text; document.body.appendChild(t); t.select(); try { document.execCommand("copy"); } catch (e) {} t.remove();}
+
+document.addEventListener("click", function(e){
+  var t = e.target.closest("button"); if (!t) return;
+  if (t.dataset.view){ view = t.dataset.view; denyOpen = false; render(); return; }
+  var p = pending()[0];
+  if (t.id === "approve" && p){ decide(p, {decision:"approved", reasons:[], note:""}, "Approved"); return; }
+  if (t.id === "deny"){ denyOpen = !denyOpen; picked = []; render(); return; }
+  if (t.dataset.reason){ var r = t.dataset.reason, i = picked.indexOf(r); if (i >= 0) picked.splice(i, 1); else picked.push(r); t.setAttribute("aria-pressed", String(i < 0)); return; }
+  if (t.id === "confirm-deny" && p){ var note = (document.getElementById("deny-note") || {}).value || ""; decide(p, {decision:"denied", reasons:picked.slice(), note:note.trim()}, "Denied"); return; }
+  if (t.id === "toast-undo"){ if (lastUndo) lastUndo(); document.getElementById("toast").hidden = true; lastUndo = null; return; }
+  if (t.dataset.copy){ var q = find(t.dataset.id); copy(t.dataset.copy === "alt" ? q.alt : q[t.dataset.copy], t); return; }
+  if (t.dataset.reopen){ if (db) db.doc("reviews/" + t.dataset.reopen).delete(); return; }
+  if (t.dataset.save && downloads){
+    var id = t.dataset.save;
+    fetch("posts/" + id + ".png").then(function(r){ return r.blob(); })
+      .then(function(b){ return downloads.save({filename: id + ".png", data: b}); })
+      .catch(function(err){ if (err && err.code && err.code !== "declined") setStatus("Could not save the image here. Long-press or right-click the image instead.", true); });
+  }
+});
+document.addEventListener("change", function(e){
+  var c = e.target; if (!c.dataset || !c.dataset.posted) return;
+  var patch = {}; patch[c.dataset.posted + "Posted"] = c.checked;
+  merge(c.dataset.id, patch).catch(function(){ c.checked = !c.checked; });
+});
+document.addEventListener("keydown", function(e){
+  if (view !== "review" || e.target.closest("textarea,input") || e.metaKey || e.ctrlKey || e.altKey || !db) return;
+  var p = pending()[0]; if (!p) return;
+  if (e.key === "a" || e.key === "A"){ decide(p, {decision:"approved", reasons:[], note:""}, "Approved"); }
+  if (e.key === "d" || e.key === "D"){ denyOpen = true; picked = []; render(); }
+});
+
+render();
+
+(async function(){
+  var dl = window.claude && window.claude.use ? await window.claude.use("downloads") : null;
+  downloads = dl;
+  var d = window.claude && window.claude.use ? await window.claude.use("db") : null;
+  if (!d){ setStatus("Decisions can only be saved when this page is opened on claude.ai.", true); render(); return; }
+  db = d;
+  db.collection("reviews").onSnapshot(function(snap){
+    var next = {};
+    snap.docs.forEach(function(doc){ next[doc.id] = doc.data(); });
+    reviews = next;
+    setStatus("");
+    var active = document.activeElement && document.activeElement.id === "deny-note";
+    if (!active) render();
+  }, function(){ setStatus("Lost the connection to saved decisions. Reload the page.", true); });
+})();
+</script>

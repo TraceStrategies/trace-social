@@ -113,7 +113,7 @@ function broadsheet(s) {
     svg += textBlock(bodyLines, { x: cx, y, size: 36, leading: 1.4, family: INTER, weight: 400, fill: C.muted });
   }
   svg += `<line x1="${cx - 180}" y1="${H - 170}" x2="${cx + 180}" y2="${H - 170}" stroke="${C.line}" stroke-width="2"/>`;
-  svg += mono(s.cta || 'tracestrategies.com', cx, H - 110, 26, C.ink, 'middle', 5);
+  svg += mono('TRACE Strategies', cx, H - 110, 26, C.ink, 'middle', 5);
   return svg;
 }
 
@@ -133,7 +133,7 @@ function monogram(s) {
   y += head.out.length * head.size * 1.12 + 30;
   svg += textBlock(bodyLines, { x: cx, y, size: 38, leading: 1.4, family: INTER, weight: 400, fill: C.muted });
   svg += `<image href="${logo}" x="${cx - 39}" y="${H - 200}" width="78" height="52"/>`;
-  svg += mono(s.cta || 'tracestrategies.com', cx, H - 110, 22, C.ink, 'middle', 5);
+  svg += mono('TRACE Strategies', cx, H - 110, 22, C.ink, 'middle', 5);
   return svg;
 }
 
@@ -167,7 +167,7 @@ function poster(s) {
   }
   svg += `<rect x="${cx - 70}" y="${H - 250}" width="140" height="100" rx="12" fill="${C.bg}"/>`;
   svg += `<image href="${logo}" x="${cx - 48}" y="${H - 232}" width="96" height="64"/>`;
-  svg += mono(s.cta || 'tracestrategies.com', cx, H - 90, 26, C.bg, 'middle', 5);
+  svg += mono('TRACE Strategies', cx, H - 90, 26, C.bg, 'middle', 5);
   return svg;
 }
 

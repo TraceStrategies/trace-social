@@ -1,0 +1,18 @@
+{
+  "id": "2026-10-01-judge-a-fix-by-monday",
+  "dueAt": "2026-10-01T13:30:00Z",
+  "pillar": "practice",
+  "source": [
+    "k-hero-tagline",
+    "k-faq-fde"
+  ],
+  "status": "rendered",
+  "card": {
+    "eyebrow": "Operations",
+    "headline": "Judge a fix by how Monday runs.",
+    "body": "A recommendation is not a result. A working system is."
+  },
+  "alt": "Dark card reading: Judge a fix by how Monday runs.",
+  "linkedin": "A simple way to judge any improvement effort: does Monday run differently?\n\nA report can be right and still change nothing. The recommendation sits in a folder while the team keeps working the old way, because nobody had time to build the new way.\n\nSo measure the fix, not the finding. Is the new step in the real system the team uses? Does it run without the person who designed it? Would a new hire follow it without being told?\n\nIf the answer is no, it is still advice.",
+  "instagram": "Judge a fix by how Monday runs.\n\nIs the new step inside the system the team actually uses? Does it run without the person who designed it? Would a new hire follow it without being told? If not, it is still advice."
+}

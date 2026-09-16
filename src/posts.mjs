@@ -25,7 +25,7 @@ export function savePost(post) {
 
 export const imageUrl = (id) => `https://raw.githubusercontent.com/${REPO}/main/posts/${id}.png`;
 
-const PILLARS = ['mission', 'method', 'offer', 'product', 'faq'];
+const PILLARS = ['method', 'practice', 'faq'];
 
 // Phrases the company page must never publish. The client names are the website's unverified
 // testimonials; the personal names keep this a company voice.
@@ -33,6 +33,8 @@ const BANNED = [
   /Linda V\b/i, /Marcus B\b/i, /Yuki T\b/i, /Priya R\b/i, /Hassan/i, /Aisha/i, /Moura/i, /David P/i,
   /\bour clients\b/i, /\bclient results?\b/i, /\bcase stud(y|ies)\b/i,
   /\bAndrew\b/i, /\bDrew\b/i, /\bHardman\b/i,
+  /#\w/, /tracestrategies\.com/i, /https?:\/\//i, /www\./i, /link in bio/i, /workbook/i, /\bfree\b/i,
+  /\b(book|schedule) a (call|demo)\b/i, /\bDM (us|me)\b/i, /contact us/i, /reach out/i, /sign up/i, /learn more/i,
   /powered by AI/i, /\bguarantee/i, /game[- ]changer/i, /let'?s be (real|straight)/i,
   /\bunlock\b/i, /\bsupercharge/i, /\brevolutioni[sz]e/i,
 ];
@@ -58,7 +60,9 @@ export function problems(post, { forQueue = false } = {}) {
 
   const knowledge = new Map(readJson(ROOT + 'knowledge.json').map((k) => [k.id, k.status]));
   const cited = Array.isArray(post.source) ? post.source : [];
-  if (!cited.length) out.push('source must be a non-empty list of knowledge ids');
+  // Practice posts teach general operations craft and make no claims about TRACE, so they may cite nothing.
+  if (!cited.length && post.pillar !== 'practice') out.push('source must be a non-empty list of knowledge ids');
+  if (post.card?.cta) out.push('card.cta is not allowed (no links on images)');
   for (const id of cited) if (knowledge.get(id) !== 'public') out.push(`source ${id} is not a public knowledge fact`);
 
   const all = JSON.stringify({ card: post.card, alt: post.alt, linkedin: post.linkedin, instagram: post.instagram });
