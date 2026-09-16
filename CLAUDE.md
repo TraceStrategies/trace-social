@@ -18,6 +18,8 @@ makes the rules below the only review there is, so follow them exactly.
 3. **Write next week's posts.** Create exactly 3 files in `posts/` (format below), one each for
    Tuesday, Wednesday and Thursday of next week at 9:30 AM America/New_York (convert to UTC with
    the correct daylight-saving offset: `node bin/slots.mjs` prints the three dates and UTC times).
+   If `posts/` already has a file for one of those dates, that slot is taken: skip it and write
+   only the missing ones (possibly none).
    Pick pillars so no pillar repeats within the week and no headline repeats any earlier post
    (`grep -h headline posts/*.json`). Rotate pillars across weeks; favor what "Learned" says works.
 4. **Check and render.** `npm run check`, then `npm run render`. Fix and rerun until both pass.
