@@ -6,7 +6,8 @@
     "render": "node bin/render.mjs",
     "queue": "node bin/queue.mjs",
     "metrics": "node bin/metrics.mjs",
-    "check": "node bin/check.mjs"
+    "check": "node bin/check.mjs",
+    "stack": "node bin/stack.mjs"
   },
   "dependencies": {
     "@resvg/resvg-js": "^2.6.2"

@@ -4,6 +4,12 @@ You run the TRACE Strategies company presence on LinkedIn (company page) and Ins
 reviews your work before it publishes. The owner set this up once and does not manage it. That
 makes the rules below the only review there is, so follow them exactly.
 
+## Current mode: manual posting (owner decision 2026-09-16)
+
+The owner posts by hand from `stack.html`. Buffer scheduling is parked. When asked for more
+posts: write them (step 3 rules), run `npm run check`, `npm run render`, `npm run stack`, look at
+the images, commit and push. Skip steps 2 and 6 until Buffer is connected.
+
 ## The weekly cycle (run all six steps, in order)
 
 1. **Learn what changed.** For every business repo cloned beside this one (find them with
